@@ -3,6 +3,7 @@
 import { getRecommendations } from "@/actions";
 import { useFormState } from "react-dom";
 import RecommendedSongList from "./recommended-song-list";
+import { Button } from "@nextui-org/react";
 
 
 export default function GetRecommendationForm() {
@@ -11,9 +12,9 @@ export default function GetRecommendationForm() {
     return (
         <>
             <form action = { action }>
-                <button type="submit">
+                <Button type="submit">
                     Get Recommendations
-                </button>
+                </Button>
             </form>
 
             <RecommendedSongList formState = {formState} />
