@@ -11,26 +11,26 @@ if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET) {
 }
 
 export const {
-  handlers: { GET, POST },
-  auth,
-  signOut,
-  signIn,
+    handlers: { GET, POST },
+    auth,
+    signOut,
+    signIn,
 } = NextAuth({
-  adapter: PrismaAdapter(db),
-  providers: [
-    Google({
-      clientId: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-  callbacks: {
-    //! Usually not needed, here we are fixing a bug in nextauth
-    async session({ session, user }: any) {
-      if (session && user) {
-        session.user.id = user.id;
-      }
+    adapter: PrismaAdapter(db),
+    providers: [
+        Google({
+        clientId: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        }),
+    ],
+    callbacks: {
+        //! Usually not needed, here we are fixing a bug in nextauth
+        async session({ session, user }: any) {
+        if (session && user) {
+            session.user.id = user.id;
+        }
 
-      return session;
+        return session;
+        },
     },
-  },
 });

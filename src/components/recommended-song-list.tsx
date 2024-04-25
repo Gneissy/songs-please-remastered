@@ -9,10 +9,7 @@ interface RecommendedSongListProps {
 
 export default function RecommendedSongList({ formState }: RecommendedSongListProps) {
     const renderedRecommendedSongs = formState.recommendedSongs.map((song: Song) => 
-        // <div key = {song.songSpotifyId}>
-        //     <div> {song.singerName} - {song.songName} </div>
-        // </div>
-        <SongShow song = { song } />
+        <SongShow key = {song.id} song = { song } />
     );
 
     return (
