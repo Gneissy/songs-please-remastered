@@ -47,6 +47,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+
+  Song          Song[]
 }
 
 model VerificationToken {
@@ -66,7 +68,10 @@ model Song {
     songName            String
     songSpotifyURL      String
     songSpotifyId       String
-    previewSpotifyURL   String
+    previewSpotifyURL   String?
+    userId              String
+
+    user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     createdAt           DateTime    @default(now())
     updatedAt           DateTime    @updatedAt

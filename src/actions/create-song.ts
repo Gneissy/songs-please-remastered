@@ -4,26 +4,40 @@ import type { Song } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
+import { auth } from "@/auth";
 
-export async function createSong(){
+interface CreateSongProps {
+    song: Song;
+}
+
+export async function createSong({ song }: CreateSongProps) {
     // Step 1: Get and Control input
+    console.log("No need to control input for creating a song.");
 
-    // Step 2: Create a new record
-    await db.song.create({
-        data: {
-            singerName: "Skylar Grey",
-            singerSpotifyURL: "Birtakım url",
-            songName: "Kill for you",
-            songSpotifyURL: "Başka birtakım url",
-            songSpotifyId: "12ıo124kl14j1l",
-            previewSpotifyURL: "Daha başka birtakım urller",
-        }
-    });
+    // Step 2: Control if user has auth //TODO Create a form error handling state (useFormState)
+    const session = await auth();
+    if (!session?.user) return;
 
-    // Step 3: Revalidate somewhere
+    // Step 3: Create a new record //TODO handle error with a useFormState
+    try {
+        await db.song.create({
+            data: {
+                singerName: song.singerName,
+                singerSpotifyURL: song.singerSpotifyURL,
+                songName: song.songName,
+                songSpotifyURL: song.songSpotifyURL,
+                songSpotifyId: song.songSpotifyId,
+                previewSpotifyURL: song.previewSpotifyURL,
+                userId: session.user.id,
+            },
+        });
+    } catch (error) {
+        console.log("An error happened while creating a song object.");
+    }
+
+    // Step 4: Revalidate somewhere
     revalidatePath("/");
 
-    // Step 4: Redirect user to somewhere
+    // Step 5: Redirect user to somewhere
     redirect("/");
-
 }

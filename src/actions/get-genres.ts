@@ -16,7 +16,6 @@ export async function getGenres(){
     } 
 
     catch (error) {
-        console.log(error);
         return ["There", "is", "error", "lol"];
     } 
     
