@@ -6,9 +6,24 @@ import { useSession } from "next-auth/react";
 
 interface FormButtonProps {
     children: React.ReactNode;
+    color?:
+        | "default"
+        | "primary"
+        | "secondary"
+        | "success"
+        | "warning"
+        | "danger"
+        | undefined;
+    isDisabled?: boolean | undefined;
+    radius?: "none" | "sm" | "md" | "lg" | "full" | undefined;
 }
 
-export default function FormButtonForUsers({ children }: FormButtonProps) {
+export default function FormButtonForUsers({
+    children,
+    color,
+    isDisabled,
+    radius,
+}: FormButtonProps) {
     const { pending } = useFormStatus();
     const session = useSession();
 
@@ -16,7 +31,9 @@ export default function FormButtonForUsers({ children }: FormButtonProps) {
         <Button
             type="submit"
             isLoading={pending}
-            isDisabled={!session.data?.user}
+            isDisabled={!session.data?.user || isDisabled}
+            color={color}
+            radius={radius}
         >
             {session.data?.user ? children : `⚡ Sign in to ${children}`}
         </Button>

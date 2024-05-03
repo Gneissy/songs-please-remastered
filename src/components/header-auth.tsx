@@ -49,7 +49,7 @@ export default function HeaderAuth() {
                         >
                             Sign Out
                         </Button>
-                        <Link href="/">
+                        <Link href={`/${session.data.user.id}`}>
                             <Button type="button" color="secondary">
                                 My Favourites
                             </Button>

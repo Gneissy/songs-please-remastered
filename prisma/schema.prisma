@@ -69,6 +69,7 @@ model Song {
     songSpotifyURL      String
     songSpotifyId       String
     previewSpotifyURL   String?
+    imgURL              String
     userId              String
 
     user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)

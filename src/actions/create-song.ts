@@ -1,8 +1,6 @@
 "use server";
 
 import type { Song } from "@prisma/client";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { auth } from "@/auth";
 
@@ -14,11 +12,11 @@ export async function createSong({ song }: CreateSongProps) {
     // Step 1: Get and Control input
     console.log("No need to control input for creating a song.");
 
-    // Step 2: Control if user has auth //TODO Create a form error handling state (useFormState)
+    // Step 2: Control if user has auth
     const session = await auth();
     if (!session?.user) return;
 
-    // Step 3: Create a new record //TODO handle error with a useFormState
+    // Step 3: Create a new record
     try {
         await db.song.create({
             data: {
@@ -28,16 +26,24 @@ export async function createSong({ song }: CreateSongProps) {
                 songSpotifyURL: song.songSpotifyURL,
                 songSpotifyId: song.songSpotifyId,
                 previewSpotifyURL: song.previewSpotifyURL,
+                imgURL: song.imgURL,
                 userId: session.user.id,
             },
         });
+        return {
+            isAdded: true,
+            errors: {
+                _form: "",
+            },
+        };
     } catch (error) {
         console.log("An error happened while creating a song object.");
+        console.error(error);
+        return {
+            isAdded: false,
+            errors: {
+                _form: "Sorry, something went wrong.",
+            },
+        };
     }
-
-    // Step 4: Revalidate somewhere
-    revalidatePath("/");
-
-    // Step 5: Redirect user to somewhere
-    redirect("/");
 }
