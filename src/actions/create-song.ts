@@ -3,6 +3,7 @@
 import type { Song } from "@prisma/client";
 import { db } from "@/db";
 import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 interface CreateSongProps {
     song: Song;
@@ -14,7 +15,13 @@ export async function createSong({ song }: CreateSongProps) {
 
     // Step 2: Control if user has auth
     const session = await auth();
-    if (!session?.user) return;
+    if (!session?.user)
+        return {
+            isAdded: false,
+            errors: {
+                _form: "You need to log in for this action.",
+            },
+        };
 
     // Step 3: Create a new record
     try {
@@ -30,12 +37,6 @@ export async function createSong({ song }: CreateSongProps) {
                 userId: session.user.id,
             },
         });
-        return {
-            isAdded: true,
-            errors: {
-                _form: "",
-            },
-        };
     } catch (error) {
         console.log("An error happened while creating a song object.");
         console.error(error);
@@ -46,4 +47,12 @@ export async function createSong({ song }: CreateSongProps) {
             },
         };
     }
+
+    revalidatePath(`/${session.user.id}`);
+    return {
+        isAdded: true,
+        errors: {
+            _form: "",
+        },
+    };
 }
