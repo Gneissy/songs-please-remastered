@@ -59,6 +59,7 @@ export default function GetRecommendationForm({
                             variant="bordered"
                             size="lg"
                             placeholder="Michael Jackson"
+                            autoComplete="off"
                         />
                     </Tab>
                     <Tab key="track" title="Track">
@@ -69,6 +70,7 @@ export default function GetRecommendationForm({
                             variant="bordered"
                             size="lg"
                             placeholder="Billie Jean"
+                            autoComplete="off"
                         />
                     </Tab>
                 </Tabs>

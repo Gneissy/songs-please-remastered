@@ -33,7 +33,7 @@ export default async function FavouritesPage(props: FavouritesPageProps) {
     return (
         <>
             <h1 className="font-bold text-3xl mb-6">
-                {user.name}'s Favourites
+                {user.name}&apos;s Favourites
             </h1>
             <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 {renderedFavouriteSongs}
