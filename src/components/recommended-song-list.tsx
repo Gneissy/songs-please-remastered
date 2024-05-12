@@ -27,7 +27,7 @@ export default function RecommendedSongList({
 
     return (
         <div id="recommended-songs">
-            <div className="grid py-20 gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg: grid-cols-4 text-center">
+            <div className="grid py-20 gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 text-center">
                 {renderedRecommendedSongs}
             </div>
         </div>

@@ -5,6 +5,7 @@ import { Song } from "@prisma/client";
 import FormButtonForUsers from "./common/form-button-for-users";
 import Image from "next/image";
 import { useFormState } from "react-dom";
+import Link from "next/link";
 
 interface SongShowProps {
     song: Song;
@@ -28,19 +29,25 @@ export default function SongShow({ song }: SongShowProps) {
                 key={song.id}
                 className="flex flex-col max-w-sm align-center justify-center p-4 border shadow-md rounded gap-4"
             >
-                <Image
-                    src={song.imgURL}
-                    alt={`${song.songName} album image`}
-                    width={360}
-                    height={360}
-                    className="rounded"
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+PifCwAE5QH8+g36rAAAAABJRU5ErkJggg=="
-                />
+                <Link href={song.songSpotifyURL}>
+                    <Image
+                        src={song.imgURL}
+                        alt={`${song.songName} album image`}
+                        width={360}
+                        height={360}
+                        className="rounded"
+                        placeholder="blur"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+PifCwAE5QH8+g36rAAAAABJRU5ErkJggg=="
+                    />
+                </Link>
 
                 <div>
-                    <p className="font-bold">{song.singerName}</p>
-                    <p className="font-normal">{song.songName}</p>
+                    <Link href={song.singerSpotifyURL}>
+                        <p className="font-bold">{song.singerName}</p>
+                    </Link>
+                    <Link href={song.songSpotifyURL}>
+                        <p className="font-normal">{song.songName}</p>
+                    </Link>
                 </div>
 
                 <div className="flex flex-col gap-4 margin-block-start-auto">
