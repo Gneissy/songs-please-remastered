@@ -6,6 +6,7 @@ import FormButtonForUsers from "./common/form-button-for-users";
 import Image from "next/image";
 import { useFormState } from "react-dom";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 interface SongShowProps {
     song: Song;
@@ -22,6 +23,14 @@ export default function SongShow({ song }: SongShowProps) {
         }
     );
 
+    // To update audio element (It's not getting re-rendered automatically for some reason)
+    const audioRef = useRef<HTMLAudioElement>(null);
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.load();
+        }
+    }, [song]);
+
     return (
         <>
             <form
@@ -29,7 +38,7 @@ export default function SongShow({ song }: SongShowProps) {
                 key={song.id}
                 className="flex flex-col max-w-sm align-center justify-center p-4 border shadow-md rounded gap-4"
             >
-                <Link href={song.songSpotifyURL}>
+                <Link href={song.songSpotifyURL} target="_blank">
                     <Image
                         src={song.imgURL}
                         alt={`${song.songName} album image`}
@@ -42,16 +51,16 @@ export default function SongShow({ song }: SongShowProps) {
                 </Link>
 
                 <div>
-                    <Link href={song.singerSpotifyURL}>
+                    <Link href={song.singerSpotifyURL} target="_blank">
                         <p className="font-bold">{song.singerName}</p>
                     </Link>
-                    <Link href={song.songSpotifyURL}>
+                    <Link href={song.songSpotifyURL} target="_blank">
                         <p className="font-normal">{song.songName}</p>
                     </Link>
                 </div>
 
                 <div className="flex flex-col gap-4 margin-block-start-auto">
-                    <audio className="audio" controls>
+                    <audio ref={audioRef} className="audio" controls>
                         <source
                             src={
                                 song.previewSpotifyURL
@@ -61,6 +70,7 @@ export default function SongShow({ song }: SongShowProps) {
                             type="audio/mpeg"
                         />
                     </audio>
+
                     {formState?.isAdded === false ? (
                         <FormButtonForUsers color="secondary" radius="full">
                             Add Favourites

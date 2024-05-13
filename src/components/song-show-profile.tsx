@@ -22,7 +22,7 @@ export default function SongShowProfile({ song }: SongShowProps) {
             key={song.id}
             className="flex flex-col max-w-sm align-center justify-center p-4 border shadow-md rounded"
         >
-            <Link href={song.songSpotifyURL}>
+            <Link href={song.songSpotifyURL} target="_blank">
                 <Image
                     src={song.imgURL}
                     alt={`${song.songName} album image`}
@@ -33,10 +33,10 @@ export default function SongShowProfile({ song }: SongShowProps) {
             </Link>
 
             <div className="pt-4 pb-4">
-                <Link href={song.singerSpotifyURL}>
+                <Link href={song.singerSpotifyURL} target="_blank">
                     <p className="font-bold">{song.singerName}</p>
                 </Link>
-                <Link href={song.songSpotifyURL}>
+                <Link href={song.songSpotifyURL} target="_blank">
                     <p className="font-normal">{song.songName}</p>
                 </Link>
             </div>
